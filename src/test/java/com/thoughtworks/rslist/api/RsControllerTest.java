@@ -32,6 +32,10 @@ public class RsControllerTest {
     MockMvc mockMvc;
 
     @Test
+    void should_get_one_rs_list() throws Exception {
+        mockMvc.perform(get("/rs/list/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("第一条事件"));
 <<<<<<< HEAD
     void should_get_one_rs_list() throws Exception {
         mockMvc.perform(get("/rs/list/1"))
