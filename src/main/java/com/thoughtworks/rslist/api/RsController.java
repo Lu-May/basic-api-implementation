@@ -70,11 +70,6 @@ public class RsController {
   @DeleteMapping("/rs/rmevent/{index}")
   public void deleteRsEvent(@PathVariable int index) {
     rsList.remove(index - 1);
-  }
-
-  @DeleteMapping("/rs/rmevent/{index}")
-  public void deleteRsEvent(@PathVariable int index) {
-    rsList.remove(index - 1);
 =======
   private List<String> rsList = Arrays.asList("第一条事件", "第二条事件", "第三条事件");
 
