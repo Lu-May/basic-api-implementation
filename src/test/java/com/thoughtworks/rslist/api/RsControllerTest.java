@@ -157,4 +157,11 @@ public class RsControllerTest {
                 .andExpect(content().string("[第一条事件, 第二条事件, 第三条事件]"));
 >>>>>>> master
     }
+
+    @Test
+    void should_get_rs_list_with_range() throws Exception {
+        mockMvc.perform(get("/rs/list?start=1&end=2"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("[第一条事件, 第二条事件]"));
+    }
 }
