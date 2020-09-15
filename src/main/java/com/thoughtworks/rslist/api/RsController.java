@@ -1,7 +1,12 @@
 package com.thoughtworks.rslist.api;
 
+<<<<<<< HEAD
 import com.thoughtworks.rslist.dto.RsEvent;
 import org.springframework.web.bind.annotation.*;
+=======
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+>>>>>>> master
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +15,7 @@ import java.util.List;
 
 @RestController
 public class RsController {
+<<<<<<< HEAD
   private List<RsEvent> rsList = initList();
 
   private List<RsEvent> initList() {
@@ -50,5 +56,12 @@ public class RsController {
   @DeleteMapping("/rs/rmevent/{index}")
   public void deleteRsEvent(@PathVariable int index) {
     rsList.remove(index - 1);
+=======
+  private List<String> rsList = Arrays.asList("第一条事件", "第二条事件", "第三条事件");
+
+  @GetMapping("/rs/list")
+  public String getAllRsEvent() {
+    return rsList.toString();
+>>>>>>> master
   }
 }
