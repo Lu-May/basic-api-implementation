@@ -46,4 +46,9 @@ public class RsController {
       rsEventString.setKeyword(rsList.get(index - 1).getKeyword());
     Collections.replaceAll(rsList, rsList.get(index - 1), rsEventString);
   }
+
+  @DeleteMapping("/rs/rmevent/{index}")
+  public void deleteRsEvent(@PathVariable int index) {
+    rsList.remove(index - 1);
+  }
 }
