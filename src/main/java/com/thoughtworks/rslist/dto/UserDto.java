@@ -5,10 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Data
 @NoArgsConstructor
@@ -31,6 +28,7 @@ public class UserDto {
     @Min(18)
     @Max(100)
     private Integer age;
+    @Email
     private String email;
     private String phone;
     private Integer vote = 10;
