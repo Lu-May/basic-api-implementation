@@ -30,6 +30,7 @@ public class UserDto {
     private Integer age;
     @Email
     private String email;
+    @Pattern(regexp = "^1")
     private String phone;
     private Integer vote = 10;
 }
