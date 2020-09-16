@@ -117,4 +117,15 @@ class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void should_not_register_when_phone_length_is_not_11() throws Exception {
+        UserDto userDto = new UserDto("Lu", "male", 20, "lu@twu.com", "1522875172");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String userDtoJson = objectMapper.writeValueAsString(userDto);
+        mockMvc.perform(post("/user/register")
+                .content(userDtoJson)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
 }
