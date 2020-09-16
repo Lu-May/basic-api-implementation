@@ -31,8 +31,19 @@ class UserControllerTest {
     }
 
     @Test
-    void name_should_nou_empty() throws Exception {
+    void name_should_not_empty() throws Exception {
         UserDto userDto = new UserDto("", "male", 20, "lu@twu.com", "15228751729");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String userDtoJson = objectMapper.writeValueAsString(userDto);
+        mockMvc.perform(post("/user/register")
+                .content(userDtoJson)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void name_length_should_not_more_than_8() throws Exception {
+        UserDto userDto = new UserDto("Luaaaaaaa", "male", 20, "lu@twu.com", "15228751729");
         ObjectMapper objectMapper = new ObjectMapper();
         String userDtoJson = objectMapper.writeValueAsString(userDto);
         mockMvc.perform(post("/user/register")
