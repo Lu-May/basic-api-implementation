@@ -2,6 +2,7 @@ package com.thoughtworks.rslist.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.rslist.dto.RsEvent;
+import com.thoughtworks.rslist.dto.UserDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -42,21 +43,15 @@ public class RsControllerTest {
 
     @Test
     void should_add_a_rs_event() throws Exception {
-        mockMvc.perform(get("/rs/list"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(3)))
-                .andExpect(jsonPath("$[0].eventName", is("第一条事件")))
-                .andExpect(jsonPath("$[0].keyword", is("无分类")))
-                .andExpect(jsonPath("$[1].eventName", is("第二条事件")))
-                .andExpect(jsonPath("$[1].keyword", is("无分类")))
-                .andExpect(jsonPath("$[2].eventName", is("第三条事件")))
-                .andExpect(jsonPath("$[2].keyword", is("无分类")));
 
-        RsEvent rsEvent = new RsEvent("猪肉涨价了", "经济");
+        UserDto userDto = new UserDto("aach", "female", 20, "lu@twu.com", "15228751729");
+        RsEvent rsEvent = new RsEvent("第四条事件", "无分类", userDto);
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(rsEvent);
 
-        mockMvc.perform(post("/rs/event").content(json).contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(post("/rs/event")
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
         mockMvc.perform(get("/rs/list"))
@@ -68,8 +63,13 @@ public class RsControllerTest {
                 .andExpect(jsonPath("$[1].keyword", is("无分类")))
                 .andExpect(jsonPath("$[2].eventName", is("第三条事件")))
                 .andExpect(jsonPath("$[2].keyword", is("无分类")))
-                .andExpect(jsonPath("$[3].eventName", is("猪肉涨价了")))
-                .andExpect(jsonPath("$[3].keyword", is("经济")));
+                .andExpect(jsonPath("$[3].eventName", is("第四条事件")))
+                .andExpect(jsonPath("$[3].keyword", is("无分类")))
+                .andExpect(jsonPath("$[3].userDto.name", is("aach")))
+                .andExpect(jsonPath("$[3].userDto.age", is(20)))
+                .andExpect(jsonPath("$[3].userDto.gender", is("female")))
+                .andExpect(jsonPath("$[3].userDto.email", is("lu@twu.com")))
+                .andExpect(jsonPath("$[3].userDto.phone", is("15228751729")));
     }
 
     @Test
