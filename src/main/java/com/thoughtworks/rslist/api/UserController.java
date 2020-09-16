@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class UserController {
     private List<UserDto> userDtos = new ArrayList<>();
 
     @PostMapping("/user/register")
-    public void registerUser(@RequestBody UserDto userDto) {
+    public void registerUser(@Valid @RequestBody UserDto userDto) {
         userDtos.add(userDto);
     }
 }
