@@ -33,6 +33,8 @@ public class RsController {
 
   @GetMapping("/rs/list/{index}")
   public RsEvent getOneRsEvent(@PathVariable int index) {
+    if (index < 1 || index > rsList.size())
+      throw new IndexOutOfBoundsException();
     return rsList.get(index - 1);
   }
 
@@ -41,14 +43,14 @@ public class RsController {
                                     @RequestParam (required = false) Integer end) {
     if (start == null || end == null)
       return ResponseEntity.ok().body(rsList);
-
+    if (start < 0 || start > rsList.size() || end < start || end > rsList.size())
+      throw new IndexOutOfBoundsException();
     return ResponseEntity.ok().body(rsList.subList(start - 1, end));
   }
 
   @PostMapping("/rs/event")
-  public void addRsEvent(@Valid @RequestBody RsEvent rsEvent) {
+  public void addRsEvent(@Valid @RequestBody RsEvent rsEvent) throws JsonProcessingException{
     rsList.add(rsEvent);
-
     for (UserDto userDto : UserController.userList) {
       if (rsEvent.getUserDto().getName().equals(userDto.getName())) {
         return;

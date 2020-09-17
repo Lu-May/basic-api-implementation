@@ -1,8 +1,11 @@
 package com.thoughtworks.rslist.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.thoughtworks.rslist.Exception.CommonError;
 import com.thoughtworks.rslist.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,7 +24,7 @@ public class UserController {
     }
 
     @PostMapping("/user/register")
-    public static ResponseEntity registerUser(@Valid @RequestBody UserDto userDto) {
+    public static ResponseEntity registerUser(@Valid @RequestBody UserDto userDto) throws JsonProcessingException {
         userList.add(userDto);
         return ResponseEntity.created(null).build();
     }
@@ -29,5 +32,12 @@ public class UserController {
     @GetMapping("/user/list")
     public List<UserDto> getUserList() {
         return userList;
+    }
+
+    @ExceptionHandler({MethodArgumentNotValidException.class})
+    public ResponseEntity<CommonError> methoudArgumentNotValidException(Exception exception) {
+        CommonError commonError = new CommonError();
+        commonError.setError("invalid user");
+        return ResponseEntity.badRequest().body(commonError);
     }
 }
