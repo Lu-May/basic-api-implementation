@@ -1,5 +1,8 @@
 package com.thoughtworks.rslist.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
@@ -7,6 +10,8 @@ public class RsEvent {
     public RsEvent() {
 
     }
+
+    private @Valid UserDto userDto;
 
     public RsEvent(String eventName, String keyword, UserDto userDto) {
         this.eventName = eventName;
@@ -40,14 +45,14 @@ public class RsEvent {
         this.keyword = keyword;
     }
 
+    @JsonIgnore
     public UserDto getUserDto() {
         return userDto;
     }
 
+    @JsonProperty
     public void setUserDto(UserDto userDto) {
         this.userDto = userDto;
     }
 
-    @Valid
-    private UserDto userDto;
 }

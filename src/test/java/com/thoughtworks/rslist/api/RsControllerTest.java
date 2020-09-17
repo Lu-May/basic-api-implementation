@@ -64,12 +64,7 @@ public class RsControllerTest {
                 .andExpect(jsonPath("$[2].eventName", is("第三条事件")))
                 .andExpect(jsonPath("$[2].keyword", is("无分类")))
                 .andExpect(jsonPath("$[3].eventName", is("第四条事件")))
-                .andExpect(jsonPath("$[3].keyword", is("无分类")))
-                .andExpect(jsonPath("$[3].userDto.name", is("aach")))
-                .andExpect(jsonPath("$[3].userDto.age", is(20)))
-                .andExpect(jsonPath("$[3].userDto.gender", is("female")))
-                .andExpect(jsonPath("$[3].userDto.email", is("lu@twu.com")))
-                .andExpect(jsonPath("$[3].userDto.phone", is("15228751729")));
+                .andExpect(jsonPath("$[3].keyword", is("无分类")));
     }
 
     @Test
