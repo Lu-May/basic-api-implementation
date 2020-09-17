@@ -41,11 +41,12 @@ public class RsController {
                                     @RequestParam (required = false) Integer end) {
     if (start == null || end == null)
       return ResponseEntity.ok().body(rsList);
+
     return ResponseEntity.ok().body(rsList.subList(start - 1, end));
   }
 
   @PostMapping("/rs/event")
-  public void addRsEvent(@RequestBody RsEvent rsEvent) {
+  public void addRsEvent(@Valid @RequestBody RsEvent rsEvent) {
     rsList.add(rsEvent);
 
     for (UserDto userDto : UserController.userList) {
