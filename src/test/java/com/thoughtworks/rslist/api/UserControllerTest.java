@@ -1,5 +1,6 @@
 package com.thoughtworks.rslist.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.rslist.dto.UserDto;
 import org.junit.jupiter.api.Test;
@@ -131,5 +132,18 @@ class UserControllerTest {
                 .content(userDtoJson)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void should_get_user_list() throws Exception {
+        UserDto userDto = new UserDto("Lu", "male", 20, "lu@twu.com", "15228751729");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String userDtoJson = objectMapper.writeValueAsString(userDto);
+        mockMvc.perform(post("/user/register")
+                .content(userDtoJson)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+        mockMvc.perform(get("/user/list"))
+                .andExpect(jsonPath("$[0].name", is("Lu")));
     }
 }
