@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.rslist.dto.RsEvent;
 import com.thoughtworks.rslist.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -36,11 +37,11 @@ public class RsController {
   }
 
   @GetMapping("/rs/list")
-  public List<RsEvent> getRsEventWithRange(@RequestParam (required = false) Integer start,
+  public ResponseEntity<List<RsEvent>> getRsEventWithRange(@RequestParam (required = false) Integer start,
                                     @RequestParam (required = false) Integer end) {
     if (start == null || end == null)
-      return rsList;
-    return rsList.subList(start - 1, end);
+      return ResponseEntity.ok().body(rsList);
+    return ResponseEntity.ok().body(rsList.subList(start - 1, end));
   }
 
   @PostMapping("/rs/event")
@@ -56,16 +57,18 @@ public class RsController {
   }
 
   @PutMapping("/rs/rsevent/{index}")
-  public void modifyRsEvent(@PathVariable int index, @RequestBody RsEvent rsEventString) {
+  public ResponseEntity<List<RsEvent>> modifyRsEvent(@PathVariable int index, @RequestBody RsEvent rsEventString) {
     if (rsEventString.getEventName() == null)
       rsEventString.setEventName(rsList.get(index - 1).getEventName());
     if (rsEventString.getKeyword() == null)
       rsEventString.setKeyword(rsList.get(index - 1).getKeyword());
-    Collections.replaceAll(rsList, rsList.get(index - 1), rsEventString);
+    rsList.set(index - 1, rsEventString);
+    return ResponseEntity.ok().body(rsList);
   }
 
   @DeleteMapping("/rs/rmevent/{index}")
-  public void deleteRsEvent(@PathVariable int index) {
+  public ResponseEntity<List<RsEvent>> deleteRsEvent(@PathVariable int index) {
     rsList.remove(index - 1);
+    return ResponseEntity.ok().body(rsList);
   }
 }

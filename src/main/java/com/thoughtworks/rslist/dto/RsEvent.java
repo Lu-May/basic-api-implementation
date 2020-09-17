@@ -1,6 +1,7 @@
 package com.thoughtworks.rslist.dto;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 
 public class RsEvent {
     public RsEvent() {
@@ -29,7 +30,9 @@ public class RsEvent {
         this.keyword = keyword;
     }
 
+    @NotEmpty
     private String eventName;
+    @NotEmpty
     private  String keyword;
 
     public RsEvent(String eventName, String keyword) {
