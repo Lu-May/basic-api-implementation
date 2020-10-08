@@ -2,6 +2,8 @@ package com.thoughtworks.rslist.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.thoughtworks.rslist.Po.UserPo;
+import com.thoughtworks.rslist.Repository.UserRepository;
 import com.thoughtworks.rslist.dto.UserDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -23,6 +27,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class UserControllerTest {
     @Autowired
     MockMvc mockMvc;
+    @Autowired
+    UserRepository userRepository;
 
     @Test
     void should_register_user() throws Exception {
@@ -32,7 +38,11 @@ class UserControllerTest {
         mockMvc.perform(post("/user/register")
                 .content(userDtoJson)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk());
+        List<UserPo> allData = userRepository.findAll();
+        assertEquals(1, allData.size());
+        assertEquals("Lu", allData.get(0).getName());
+        assertEquals("female", allData.get(0).getGender());
     }
 
     @Test

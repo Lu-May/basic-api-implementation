@@ -2,6 +2,8 @@ package com.thoughtworks.rslist.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.thoughtworks.rslist.Exception.CommonError;
+import com.thoughtworks.rslist.Po.UserPo;
+import com.thoughtworks.rslist.Repository.UserRepository;
 import com.thoughtworks.rslist.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,9 @@ public class UserController {
 
     public static List<UserDto> userList = new ArrayList<>();
 
+    @Autowired
+    static
+    UserRepository userRepository;
     public static List<UserDto> initUserList() {
         userList.add(new UserDto("Lu", "female", 20, "lu@twu.com", "15228751729"));
         userList.add(new UserDto("Gou", "male", 21, "g@twu.com", "12345678912"));
@@ -24,9 +29,16 @@ public class UserController {
     }
 
     @PostMapping("/user/register")
-    public static ResponseEntity registerUser(@Valid @RequestBody UserDto userDto) throws JsonProcessingException {
-        userList.add(userDto);
-        return ResponseEntity.created(null).build();
+    public static void registerUser(@Valid @RequestBody UserDto userDto) throws JsonProcessingException {
+        UserPo userPo = UserPo.builder()
+                .name(userDto.getName())
+                .gender(userDto.getGender())
+                .age(userDto.getAge())
+                .email(userDto.getEmail())
+                .phone(userDto.getPhone())
+                .vote(userDto.getVote())
+                .build();
+        userRepository.save(userPo);
     }
 
     @GetMapping("/user/list")

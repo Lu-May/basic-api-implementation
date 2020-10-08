@@ -1,12 +1,16 @@
 package com.thoughtworks.rslist.Po;
 
-import lombok.NonNull;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
 @Entity
 @Table(name = "user")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserPo {
     @Id
     @GeneratedValue
